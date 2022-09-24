@@ -1,0 +1,228 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>迭代器 | Hexo</title><meta name="keywords" content="JavaScript"><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="迭代器和可迭代对象迭代器认识什么叫迭代器维基百科对迭代器的定义：迭代器是确使用户在容器对象上遍访的对象，使用该接口无需关心对象内部实现的细节，维基百科的解释确实很正确，但是他喜欢用概念解释概念，所以说也不好理解。我觉得用大白话来形容：就是迭代器可以帮助我们对某个数据结构进行遍历的对象，在很多语言都有，比如说java、python… JavaScript中迭代器 在JavaScript中迭代器也是一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="迭代器">
+<meta property="og:url" content="http://example.com/post/2cf69f40.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="迭代器和可迭代对象迭代器认识什么叫迭代器维基百科对迭代器的定义：迭代器是确使用户在容器对象上遍访的对象，使用该接口无需关心对象内部实现的细节，维基百科的解释确实很正确，但是他喜欢用概念解释概念，所以说也不好理解。我觉得用大白话来形容：就是迭代器可以帮助我们对某个数据结构进行遍历的对象，在很多语言都有，比如说java、python… JavaScript中迭代器 在JavaScript中迭代器也是一">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png">
+<meta property="article:published_time" content="2022-09-24T15:52:04.270Z">
+<meta property="article:modified_time" content="2022-09-24T16:42:51.349Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/post/2cf69f40"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"Author: John Doe","link":"Link: ","source":"Source: Hexo","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source."}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '迭代器',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-09-25 00:42:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://bu.dusays.com/2022/05/02/626f92e193879.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hexo</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">迭代器</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2022-09-24T15:52:04.270Z" title="Created 2022-09-24 23:52:04">2022-09-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JavaScript/">JavaScript</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="迭代器"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="迭代器和可迭代对象"><a href="#迭代器和可迭代对象" class="headerlink" title="迭代器和可迭代对象"></a>迭代器和可迭代对象</h2><h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><h4 id="认识什么叫迭代器"><a href="#认识什么叫迭代器" class="headerlink" title="认识什么叫迭代器"></a>认识什么叫迭代器</h4><p>维基百科对迭代器的定义：迭代器是确使用户在容器对象上遍访的对象，使用该接口无需关心对象内部实现的细节，维基百科的解释确实很正确，但是他喜欢用概念解释概念，所以说也不好理解。我觉得用大白话来形容：<strong>就是迭代器可以帮助我们对某个数据结构进行遍历的对象</strong>，在很多语言都有，比如说java、python…</p>
+<h4 id="JavaScript中迭代器"><a href="#JavaScript中迭代器" class="headerlink" title="JavaScript中迭代器"></a>JavaScript中迭代器</h4><ol>
+<li><p>在JavaScript中迭代器也是一个具体的对象，不过这个对象需要符合<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Iteration_protocols"><strong>迭代器协议</strong></a>（iterator protocol）。迭代器协议定义了一系列的值产生的标准。</p>
+<img src="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/bcca5fccd8ece29d389a3684c1f42b194da14b5bf9cfa1011b658f27a0e8b87a6bd26103371ae95e266b010b3b87e38d?pictype=scale&from=30013&version=3.3.3.3&uin=916606569&fname=%E8%BF%AD%E4%BB%A3%E5%99%A8MDN%E9%94%99%E8%AF%AF%E7%9A%84%E5%9C%B0%E6%96%B9.png&size=750" alt="MDN中文文档" style="zoom:50%;" />
+如果我们阅读英文文档会发现这个位置其实中文翻译的是有问题的，下面这副图才是正确解释
+
+<img src="https://picabstract-preview-ftn.weiyun.com/ftn_pic_abs_v3/1cf5e60501cfc3bbc5300666d3a6015bea0f147e9e51a35cf5ed53f7823061b08a6445476666b3babd3bdcc5957a4c79?pictype=scale&from=30013&version=3.3.3.3&uin=916606569&fname=%E8%BF%AD%E4%BB%A3%E5%99%A8%E8%8B%B1%E6%96%87.png&size=750" alt="MDN英文文档" style="zoom:50%;" /></li>
+</ol>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="comment">//符合迭代器协议的对象，可以通过某个标准拿到arr数组中的一个又一个的项，在js中这个标准就是一个特定的next方法</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>next方法也不是随便定义的一个方法，他也有一定的要求</p>
+<ul>
+<li>他是一个无参数或者一个参数的函数，返回一个应当拥有以下两个属性的对象(done、value)</li>
+<li>当done的值为false的时候，就代表迭代器可继续产出值，当迭代完毕之后就返回一个true(迭代结束的时候true可以省略)</li>
+<li>value就是返回false之后需要给使用者返回的值，是最直观的提现，使用者可以拿到这个值进行一系列的操作，当迭代完毕的时候done的值为true，value的值是可选的，如果它存在那么就作为迭代器结束之后的默认值返回。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> iterableArr = &#123;</span><br><span class="line">  <span class="title function_">next</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (index &lt; arr.<span class="property">length</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123; <span class="attr">done</span>: <span class="literal">false</span>, <span class="attr">value</span>: arr[index++] &#125;;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123; <span class="attr">done</span>: <span class="literal">true</span>, <span class="attr">value</span>: <span class="literal">undefined</span> &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterableArr.<span class="title function_">next</span>());  <span class="comment">//&#123; done: false, value: 1 &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterableArr.<span class="title function_">next</span>());  <span class="comment">//&#123; done: false, value: 2 &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterableArr.<span class="title function_">next</span>());  <span class="comment">//&#123; done: false, value: 3 &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterableArr.<span class="title function_">next</span>());  <span class="comment">//&#123; done: false, value: 4 &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterableArr.<span class="title function_">next</span>());  <span class="comment">//&#123; done: false, value: 5 &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterableArr.<span class="title function_">next</span>());  <span class="comment">//&#123; done: true, value: undefined &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterableArr.<span class="title function_">next</span>());  <span class="comment">//&#123; done: true, value: undefined &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//这样我们就实现了一个简易的迭代器</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="可迭代对象"><a href="#可迭代对象" class="headerlink" title="可迭代对象"></a>可迭代对象</h3><h4 id="认识什么叫可迭代对象"><a href="#认识什么叫可迭代对象" class="headerlink" title="认识什么叫可迭代对象"></a>认识什么叫可迭代对象</h4><p>​		可迭代对象和迭代器完全是两个概念，不能混淆了，可迭代对象需要实现（adorably protocol协议）</p>
+<p>并且返回一个迭代器。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> iterableObj = &#123;</span><br><span class="line">  <span class="attr">arr</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>],</span><br><span class="line">  [<span class="title class_">Symbol</span>.<span class="property">iterator</span>]() &#123;</span><br><span class="line">    <span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">next</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (index &lt; <span class="variable language_">this</span>.<span class="property">arr</span>.<span class="property">length</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> &#123; <span class="attr">done</span>: <span class="literal">false</span>, <span class="attr">value</span>: <span class="variable language_">this</span>.<span class="property">arr</span>[index++] &#125;;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> &#123; <span class="attr">done</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> item <span class="keyword">of</span> iterableObj) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(item); <span class="comment">//1,2,3,4,5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>迭代器这种代码，通过调用next去获取数组的每一项，我们在开发中是很少写的，但是这种for..of的代码在开发中是很常见的，for..of可以看做这种语法的语法糖。</p>
+<h4 id="可迭代对象的应用"><a href="#可迭代对象的应用" class="headerlink" title="可迭代对象的应用"></a>可迭代对象的应用</h4><ol>
+<li><p>可以应用于for..of遍历</p>
+</li>
+<li><p>也可以引用到展开运算符中</p>
+<ul>
+<li><p>如果是一个对象，那么也是可以的，那么就有一个问题，for..of遍历对象的时候是不可以的，会报错的，例子:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;coderwei&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">19</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newObj = &#123; ...obj &#125;; </span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newObj);  <span class="comment">//&#123;name:&#x27;coderwei&#x27;,age:19&#125;</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> item <span class="keyword">of</span> <span class="title class_">Obj</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(item);  <span class="comment">//报错</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//展开运算符用在一个对象上原理不是利用可迭代对象，这时ES9提出来的，对对象使用的时候会做特殊的处理，而且展开运算符只能将对象展开到另一个对象。如果展开到数组里依旧会报错：xxx is not iterable</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>解构</p>
+<ul>
+<li><p>当我们使用解构赋值的时候，本质上也是利用可迭代对象的特性，当前同样要区分解构对象和数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解构数组</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> [x ,y ,z ] = arr</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(x,y,z) <span class="comment">//1,2,3</span></span><br><span class="line"><span class="keyword">const</span> [x ,z ,y] = arr</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(x,y,z) <span class="comment">// 1,3,2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//解构对象</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;<span class="attr">name</span>:<span class="string">&#x27;coderwei&#x27;</span>,<span class="attr">age</span>:<span class="number">19</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123;name,age&#125; = obj</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(name.<span class="property">age</span>) <span class="comment">//&#x27;coderwei&#x27;,19</span></span><br><span class="line"><span class="keyword">const</span> &#123;obj,name&#125; = obj</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(name.<span class="property">age</span>) <span class="comment">//&#x27;coderwei&#x27;,19</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//我们可以发现当我们解构对象的时候，跟定义变量的顺序是无关的，而解构数组则是有关的，也证明了解构数组只是调用迭代器的next方法拿到一个个的value，然后将它赋值给定义的变量</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h2 id="封装一个创建迭代器的函数"><a href="#封装一个创建迭代器的函数" class="headerlink" title="封装一个创建迭代器的函数"></a>封装一个创建迭代器的函数</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">createIterator</span>(<span class="params">arr</span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> index = <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">		<span class="attr">next</span>:<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(index&lt;arr.<span class="property">length</span>)&#123;</span><br><span class="line">            	<span class="keyword">return</span> &#123;<span class="attr">done</span>:<span class="literal">false</span>,<span class="attr">value</span>:arr[index++]&#125;</span><br><span class="line">       		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        		<span class="keyword">return</span> &#123;<span class="attr">done</span>:<span class="literal">true</span>,<span class="attr">value</span>:<span class="literal">undefined</span>&#125;</span><br><span class="line">    		&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">let</span> itor = <span class="title function_">createIterator</span>(arr);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(itor.<span class="title function_">next</span>());  <span class="comment">//&#123; done: false, value: 1 &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(itor.<span class="title function_">next</span>());  <span class="comment">//&#123; done: false, value: 2 &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(itor.<span class="title function_">next</span>());  <span class="comment">//&#123; done: false, value: 3 &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(itor.<span class="title function_">next</span>());  <span class="comment">//&#123; done: false, value: 4 &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(itor.<span class="title function_">next</span>());  <span class="comment">//&#123; done: false, value: 5 &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(itor.<span class="title function_">next</span>());  <span class="comment">//&#123; done: true, value: undefined &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(itor.<span class="title function_">next</span>());  <span class="comment">//&#123; done: true, value: undefined &#125;</span></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/post/2cf69f40.html">http://example.com/post/2cf69f40.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JavaScript/">JavaScript</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/5c7c6e1a.html"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">异步代码</div></div></a></div><div class="next-post pull-right"><a href="/post/e284c1d7.html"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">寄生组合式继承</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/post/c8b44329.html" title="响应式原理"><img class="cover" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-24</div><div class="title">响应式原理</div></div></a></div><div><a href="/post/e284c1d7.html" title="寄生组合式继承"><img class="cover" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-24</div><div class="title">寄生组合式继承</div></div></a></div><div><a href="/post/b8084239.html" title="事件循环"><img class="cover" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg3.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-24</div><div class="title">事件循环</div></div></a></div><div><a href="/post/5c7c6e1a.html" title="异步代码"><img class="cover" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-24</div><div class="title">异步代码</div></div></a></div><div><a href="/post/dc521de2.html" title="ES Module"><img class="cover" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-24</div><div class="title">ES Module</div></div></a></div><div><a href="/post/74520f03.html" title="this指向"><img class="cover" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-24</div><div class="title">this指向</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://bu.dusays.com/2022/05/02/626f92e193879.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.</span> <span class="toc-text">迭代器和可迭代对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">迭代器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A4%E8%AF%86%E4%BB%80%E4%B9%88%E5%8F%AB%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">认识什么叫迭代器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JavaScript%E4%B8%AD%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-number">1.1.2.</span> <span class="toc-text">JavaScript中迭代器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.2.</span> <span class="toc-text">可迭代对象</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A4%E8%AF%86%E4%BB%80%E4%B9%88%E5%8F%AB%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.2.1.</span> <span class="toc-text">认识什么叫可迭代对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">1.2.2.</span> <span class="toc-text">可迭代对象的应用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AA%E5%88%9B%E5%BB%BA%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9A%84%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">封装一个创建迭代器的函数</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/f4bc1432.html" title="call、apply、bind"><img src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="call、apply、bind"/></a><div class="content"><a class="title" href="/post/f4bc1432.html" title="call、apply、bind">call、apply、bind</a><time datetime="2022-09-24T15:52:04.343Z" title="Created 2022-09-24 23:52:04">2022-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/74520f03.html" title="this指向"><img src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="this指向"/></a><div class="content"><a class="title" href="/post/74520f03.html" title="this指向">this指向</a><time datetime="2022-09-24T15:52:04.328Z" title="Created 2022-09-24 23:52:04">2022-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/dc521de2.html" title="ES Module"><img src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ES Module"/></a><div class="content"><a class="title" href="/post/dc521de2.html" title="ES Module">ES Module</a><time datetime="2022-09-24T15:52:04.317Z" title="Created 2022-09-24 23:52:04">2022-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/b8084239.html" title="事件循环"><img src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg3.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="事件循环"/></a><div class="content"><a class="title" href="/post/b8084239.html" title="事件循环">事件循环</a><time datetime="2022-09-24T15:52:04.309Z" title="Created 2022-09-24 23:52:04">2022-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/5c7c6e1a.html" title="异步代码"><img src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="异步代码"/></a><div class="content"><a class="title" href="/post/5c7c6e1a.html" title="异步代码">异步代码</a><time datetime="2022-09-24T15:52:04.291Z" title="Created 2022-09-24 23:52:04">2022-09-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg2.png')"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2022 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax src="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("coderwei99-github-io-quxo-m6rxxtrcb-hh-hh.vercel.app/api?coderwei99",['#e4dfd7', '#f9f4dc', '#f7e8aa', '#f7e8aa', '#f8df72', '#fcd217', '#fcc515', '#f28e16', '#fb8b05', '#d85916', '#f43e06'],'coderwei99')
+    }
+  </script><!-- hexo injector body_end end --></body></html>
