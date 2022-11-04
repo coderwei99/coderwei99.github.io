@@ -22,17 +22,3 @@
   background: transparent !important;
 }
 
-.aside-content{
-    max-width:462px;
-    min-width:350px;
-}
-.recent-posts{
-  width:auto!important;
-}
-
-.layout{
-  max-width:1800px;
-}
-.recent-post-item{
-  height:270px;
-}
