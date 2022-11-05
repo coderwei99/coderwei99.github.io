@@ -4,6 +4,81 @@
   
     
     <entry>
+      <title>Vite脚手架和Vite</title>
+      <link href="/post/6e0587ac.html"/>
+      <url>/post/6e0587ac.html</url>
+      
+        <content type="html"><![CDATA[<p>​        在以前开发的时候，我们可以清晰的分开vue-cli和webpack，其实最主要的原因就是webpack是国外的，它有着单独的文档，而vue-cli属于vue团队的，他们是两个团队开发的不同的东西，所以我们对他们很敏感，分的也比较清，而且最新的vite，他们共属于vue，虽然是不同团队，但他们是同一个组织。包括vite文档，也有意弱化vite的存在感，他希望我们拿着就用，也是官网那句话<code>开箱即用</code>。</p><h2 id="什么叫vite脚手架"><a href="#什么叫vite脚手架" class="headerlink" title="什么叫vite脚手架"></a>什么叫vite脚手架</h2><p>​        在这里我们就不关注脚手架的概念了，我们把注意力集中在vite脚手架，官网再让我们创建一个vite项目的时候就是用的脚手架创建的</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm create vite@latest<span class="comment">#npm</span></span><br><span class="line">yarn create vite<span class="comment">#yarn</span></span><br><span class="line">pnpm create vite<span class="comment">#pnpm</span></span><br></pre></td></tr></table></figure><p>​        我们可以简单理解为，vite脚手架给我们创建的项目，是vite团队最佳实践的产物，使用脚手架创建的项目，给我们提供了一套预设，几乎满足我们绝大多数情况下的开发，不需要我们额外配置别的东西，还是那句话 <code>开箱即用</code>。</p><p>​        何为预设？举个通俗的例子，在这个现代社会，大家都要去买房吧。当我们去购买房子的时候有两种方案，一种是毛坯房，空空如也，单纯的房子，里面啥都没有，需要自己去花精力装修、埋线、铺水管等等。而另一种就是精装修的，什么都已经做好了，甚至有些床、电器都给你安排上了。你要做的就是拿着行李进去住就好了。这里的毛坯房就是我们的工程，精装修的房子就是vite脚手架创建的工程。</p><p>​        我们自己搭建的项目需要安装vite、vue、less、post-css等等，但是换个角度想一想，这些东西是不是每一个项目都需要的，vite、less、post-css、babel这些支撑我们开发的东西，是不是每个项目都有的？或许有的项目是用react，但是这些是从大方向来说的。小方向：babel、post-css这些转换代码的插件，每个项目都需要，一个两个还好，如果多了呢？岂不是我们创建项目都是一个麻烦事，所以说这个东西就可以交给脚手架来处理，我们只需要去定制一些我们项目特殊的地方，比如说vite脚手架是安装less，我们需要用sass，那我们去安装对应的sass处理器即可。</p><h2 id="什么是vite"><a href="#什么是vite" class="headerlink" title="什么是vite"></a>什么是vite</h2><p>​        而vite就是我们开发的时候，支撑我们开发的最主要的工具，我们接触的最多的也是他，他需要帮我们打包代码、构建开发服务器、代码分割等等。所以说vite脚手架就是帮我们基于vite创建一个符合大部分项目的项目。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Vite </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Vite </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vite相较于webpack的优势</title>
+      <link href="/post/abc8308c.html"/>
+      <url>/post/abc8308c.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="现代开发中存在的问题"><a href="#现代开发中存在的问题" class="headerlink" title="现代开发中存在的问题"></a>现代开发中存在的问题</h2><p>​        随着时代的进步，我们所开发的项目也不是以前能比的，借用vite官方的描述：<code>当我们开始构建越来越大型的应用时，需要处理的 JavaScript 代码量也呈指数级增长。包含数千个模块的大型项目相当普遍。基于 JavaScript 开发的工具就会开始遇到性能瓶颈：通常需要很长时间（甚至是几分钟！）才能启动开发服务器，即使使用模块热替换（HMR），文件修改后的效果也需要几秒钟才能在浏览器中反映出来。如此循环往复，迟钝的反馈会极大地影响开发者的开发效率和幸福感。</code></p><p>这里说的JavaScript 开发的工具就是指的我们在上一章说讲的构建工具，一个快速的开发环境，会极大的提高我们的开发效率</p><h2 id="天下苦webpack久矣"><a href="#天下苦webpack久矣" class="headerlink" title="天下苦webpack久矣"></a>天下苦webpack久矣</h2><p>​        相信大家再用webpack开发的时候，明显感觉到，随着我们的项目迭代，webpack启动服务器所耗费的时间也随着提高，当然，或许这都能接受。但是当我们修改文件，虽然基于HMR（热更新），但是我们也会发现需要耗费几秒的时间，这极大影响我们的开发体验。而且这个时间会继续随着我们项目迭代更拉长，后面就更无法接受了。</p><h2 id="webpack-vs-Vite"><a href="#webpack-vs-Vite" class="headerlink" title="webpack vs Vite"></a>webpack vs Vite</h2><h3 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h3><h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><p>​        我们需要知道在webpack环境下，我们可以使用commonjs、ES Module等模块化方案，他们会被正常编译，做代码转换  然后跑到浏览器，它支持多种模块方案，因为他需要考虑到我们的代码可能跑在服务端，不单单是浏览器。</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> vue <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">const</span> axios = <span class="built_in">require</span>(<span class="string">&#x27;axios&#x27;</span>)</span><br></pre></td></tr></table></figure><h4 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h4><p>​        其次就是构建流程，webpack在敲下npm run dev启动开发服务器的时候，会将项目所有的代码进行打包，然后在启动项目。</p><h3 id="Vite"><a href="#Vite" class="headerlink" title="Vite"></a>Vite</h3><h4 id="编译-1"><a href="#编译-1" class="headerlink" title="编译"></a>编译</h4><p>​        与webpack相比，Vite明显就不需要考虑那么多，它基于ES Module，所以他默认我们使用的模块化方案是ES module，这样他就不需要检测相关依赖，然后为了统一模块化方案而做代码转换。所以说webpack和Vite最大的区别就是：webpack兼容多端，而Vite只关注用户在浏览器的开发体验。</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> vue <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">const</span> axios = <span class="built_in">require</span>(<span class="string">&#x27;axios&#x27;</span>) <span class="comment">// ERROR：require is not a function</span></span><br></pre></td></tr></table></figure><h4 id="构建-1"><a href="#构建-1" class="headerlink" title="构建"></a>构建</h4><p>​        恰恰与webpack相反，Vite在用户敲下npm run dev的时候，是先启动开发服务器，然后通过网络请求加载入口文件。并且它是按需加载的，当我们在home路径下，他只会去加载对应home路径的模块，而不会一次性全部加载下来。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Vite </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Vite </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>前端常用的设计模式</title>
+      <link href="/post/df10a04b.html"/>
+      <url>/post/df10a04b.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 设计模式 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>数组方法不完全指北</title>
       <link href="/post/4fa6d48d.html"/>
       <url>/post/4fa6d48d.html</url>
@@ -33,7 +108,7 @@
       <link href="/post/3c25bda0.html"/>
       <url>/post/3c25bda0.html</url>
       
-        <content type="html"><![CDATA[<div class='checkbox'><input type="radio" />            <p><a href="/post/e6429079">什么是构建工具</a></p>            </div>]]></content>
+        <content type="html"><![CDATA[<div class='checkbox'><input type="radio" />            <p><a href="/post/e6429079">什么是构建工具</a></p>            </div><div class='checkbox'><input type="radio" />            <p><a href="/post/abc8308c">vite相较于webpack的优势</a></p>            </div><div class='checkbox'><input type="radio" />            <p><a href="/post/abc8308c">Vite脚手架和Vite</a></p>            </div>]]></content>
       
       
       <categories>
